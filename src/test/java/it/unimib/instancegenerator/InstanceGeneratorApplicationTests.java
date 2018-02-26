@@ -1,8 +1,7 @@
 package it.unimib.instancegenerator;
 
-import it.unimib.instancegenerator.utils.GeneratorUtils;
+import it.unimib.instancegenerator.utils.GeneratorUtilsAttempt1;
 import org.assertj.core.data.Percentage;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
@@ -28,7 +26,7 @@ public class InstanceGeneratorApplicationTests {
 	private ConfProperties properties;
 
 	@Autowired
-    private GeneratorUtils utils;
+    private GeneratorUtilsAttempt1 utils;
 
 
 	@Test

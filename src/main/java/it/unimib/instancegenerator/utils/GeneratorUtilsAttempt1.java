@@ -1,9 +1,9 @@
 package it.unimib.instancegenerator.utils;
 
 import it.unimib.instancegenerator.ConfProperties;
-import it.unimib.instancegenerator.structs.Family;
-import it.unimib.instancegenerator.structs.Item;
-import it.unimib.instancegenerator.structs.Knapsack;
+import it.unimib.instancegenerator.domain.Family;
+import it.unimib.instancegenerator.domain.Item;
+import it.unimib.instancegenerator.domain.Knapsack;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -13,13 +13,13 @@ import java.util.OptionalDouble;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Component
-public class GeneratorUtils {
+public class GeneratorUtilsAttempt1 {
 
-    ConfProperties properties;
-    public GeneratorUtils( ConfProperties properties) {
+    private ConfProperties properties;
+
+    public GeneratorUtilsAttempt1(ConfProperties properties) {
         this.properties = properties;
     }
 
@@ -63,7 +63,7 @@ public class GeneratorUtils {
     public int generateCPUKnapsack(Integer numKnapsack, BigDecimal alpha, List<Integer> cpuValues){
            Integer sumCPURequirements = cpuValues.stream().mapToInt(Integer::intValue).sum();
            BigDecimal sum = BigDecimal.valueOf(sumCPURequirements);
-           return alpha.multiply(sum).divide(BigDecimal.valueOf(numKnapsack)).toBigInteger().intValue();
+        return alpha.multiply(sum).divide(BigDecimal.valueOf(numKnapsack), RoundingMode.HALF_UP).toBigInteger().intValue();
     }
 
     public int generateMemoryKnapsack(Integer numKnapsack, BigDecimal beta, List<Integer> memoryValue){
@@ -109,10 +109,10 @@ public class GeneratorUtils {
         return family;
     }
 
-    public List<Family> generateRandomFamilyList(){
+    public List<Family> generateListOfRandomFamily() {
         int numFamilies = generateRandomNumFamilies();
         List<Family> families = IntStream.range(1, numFamilies+1)
-                .mapToObj(i-> generateRandomFamily(i)).collect(Collectors.toList());
+                .mapToObj(this::generateRandomFamily).collect(Collectors.toList());
         List<Item> items = families.stream()
                 .flatMap(family -> family.getItems().stream()).collect(Collectors.toList());
         IntStream.range(0, items.size()).forEach(i->items.get(i).setItemId(i+1));
@@ -133,5 +133,10 @@ public class GeneratorUtils {
         return knapsack;
     }
 
+    public List<Knapsack> generate10Knapsacks(int numKnapsack, List<Family> families) {
+        return IntStream.range(1, 11)
+                .mapToObj(i -> generateRandomKnapsack(i, numKnapsack, generateRandomAlpha(), generateRandomBeta(), families))
+                .collect(Collectors.toList());
+    }
 
 }

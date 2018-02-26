@@ -1,11 +1,9 @@
 package it.unimib.instancegenerator;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import lombok.Data;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,5 +36,6 @@ public class ConfProperties {
 	private Extremes requirementMemory =new Extremes();
 
 	private List<Double> weights = Arrays.asList(0.25, 0.50, 0.75);
-	
+
+
 }
