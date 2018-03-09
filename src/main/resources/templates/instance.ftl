@@ -8,7 +8,7 @@ ${item.itemId}  ${item.familyId}    ${item.weights[0]}  ${item.weights[1]}
 </#list>
 families
 <#list families as family>
-${family.familyId}  ${family.numItems}  ${family.profit}    ${family.penalty}
+    ${family.familyId}  ${family.profit}    ${family.penalty}   ${family.numItems}
 </#list>
 knapsacks
 <#list knapsacks as k>

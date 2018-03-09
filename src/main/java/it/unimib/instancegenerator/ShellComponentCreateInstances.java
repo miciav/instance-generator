@@ -4,6 +4,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import it.unimib.instancegenerator.domain.Family;
+import it.unimib.instancegenerator.domain.Instance;
 import it.unimib.instancegenerator.domain.Item;
 import it.unimib.instancegenerator.domain.Knapsack;
 import it.unimib.instancegenerator.utils.GeneratorUtilsAttempt1;
@@ -58,7 +59,7 @@ class ShellComponentCreateInstances {
     }
 
     @ShellMethod("command to create the second type of instance set")
-    public String createInstancesType2() throws IOException {
+    public String createInstancesType2() throws Exception {
         Path dir = CleanOutputDir("type2");
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{3, 5, 10}) {
@@ -115,13 +116,16 @@ class ShellComponentCreateInstances {
 
 
     //------------------------------------------------------------------------------------------------------------------
-    private void createInstanceOfType2(int numKnapsacks, int numItems, int instanceId, String dir) throws IOException, TemplateException {
+    private void createInstanceOfType2(int numKnapsacks, int numItems, int instanceId, String dir) throws Exception {
         Template template = cfg.getTemplate("instance.ftl");
         Map<String, Object> input = new HashMap<>();
 
         List<Family> families = utilsType2.generateListOfRandomFamily(numItems);
         List<Item> items = enumerateItems(families);
         List<Knapsack> knapsacks = utilsType2.generateNKnapsacks(numKnapsacks, families);
+
+        Instance instance = new Instance(items, families, knapsacks);
+        if (!instance.validate()) throw new Exception("instance not valid");
 
         input.put("numItems", items.size());
         input.put("numFamilies", families.size());
