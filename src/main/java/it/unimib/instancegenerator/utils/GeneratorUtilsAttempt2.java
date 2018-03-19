@@ -150,6 +150,8 @@ public class GeneratorUtilsAttempt2 {
         Integer memKnapsack = generateMemoryKnapsack(numKnapsack, beta, memValues);
         knapsack.getCapacities().add(cpuKnapsack);
         knapsack.getCapacities().add(memKnapsack);
+        knapsack.setAlpha(alpha);
+        knapsack.setBeta(beta);
         return knapsack;
     }
 

@@ -20,6 +20,7 @@ public class CreateInstancesType2Test {
 
     @Test
     public void playerCanRecordEntireScoreOfGame() {
-        assertThat(shell.evaluate(() -> "create-instances-type2")).isEqualTo("Instances generated !!");
+        assertThat(shell.evaluate(() -> "create-instances-type3")).isEqualTo("Instances generated !!");
     }
+
 }

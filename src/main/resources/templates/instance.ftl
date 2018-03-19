@@ -12,5 +12,6 @@ families
 </#list>
 knapsacks
 <#list knapsacks as k>
-${k.knapsackId}  ${k.capacities[0]?string}  ${k.capacities[1]}
+    ${k.knapsackId}  ${k.capacities[0]?string}  ${k.capacities[1]}  ${k.alpha}  ${k.beta}
 </#list>
+

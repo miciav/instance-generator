@@ -78,6 +78,26 @@ class ShellComponentCreateInstances {
 
     }
 
+    @ShellMethod("command to create the third type of instance set")
+    public String createInstancesType3() throws Exception {
+        Path dir = CleanOutputDir("type3");
+        int numInstancesPerGroup = 10;
+        for (int numKnapsacks : new int[]{3, 5, 10}) {
+            for (int nunItems : new int[]{1000, 3000, 5000}) {
+                for (int instanceId = 1; instanceId <= 10; instanceId++) {
+                    try {
+                        createInstanceOfType2(numKnapsacks, nunItems, instanceId, dir.toString());
+                    } catch (IOException | TemplateException e) {
+                        return e.getMessage();
+                    }
+                }
+            }
+        }
+        return "Instances generated !!";
+
+
+    }
+
 
     private Path CleanOutputDir(String type) throws IOException {
         Path resDir = Paths.get(System.getProperty("user.dir"), properties.getOutputDir() + "_" + type);
@@ -148,6 +168,7 @@ class ShellComponentCreateInstances {
             template.process(input, fileWriter);
         }
     }
+
 
     private List<Item> enumerateItems(List<Family> families) {
         return families.stream().flatMap(family -> family.getItems().stream()).collect(Collectors.toList());
