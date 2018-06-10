@@ -9,7 +9,9 @@ import it.unimib.instancegenerator.domain.Item;
 import it.unimib.instancegenerator.domain.Knapsack;
 import it.unimib.instancegenerator.utils.GeneratorUtilsAttempt1;
 import it.unimib.instancegenerator.utils.GeneratorUtilsAttempt2;
+import it.unimib.instancegenerator.utils.GeneratorUtilsAttempt3;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.util.FileSystemUtils;
@@ -36,13 +38,19 @@ class ShellComponentCreateInstances {
     public final Configuration cfg;
     private final GeneratorUtilsAttempt1 utilsType1;
     private final GeneratorUtilsAttempt2 utilsType2;
+    private final GeneratorUtilsAttempt3 utilsType3;
     private final ConfProperties properties;
 
     @Autowired
-    public ShellComponentCreateInstances(Configuration cfg, GeneratorUtilsAttempt1 utilsType1, GeneratorUtilsAttempt2 utilsType2, ConfProperties properties) {
+    public ShellComponentCreateInstances(Configuration cfg,
+                                         GeneratorUtilsAttempt1 utilsType1,
+                                         @Qualifier("Utils2") GeneratorUtilsAttempt2 utilsType2,
+                                         @Qualifier("Utils3") GeneratorUtilsAttempt3 utilsType3,
+                                         ConfProperties properties) {
         this.cfg = cfg;
         this.utilsType1 = utilsType1;
         this.utilsType2 = utilsType2;
+        this.utilsType3 = utilsType3;
         this.properties = properties;
     }
 
@@ -78,9 +86,9 @@ class ShellComponentCreateInstances {
 
     }
 
-    @ShellMethod("command to create the third type of instance set")
-    public String createInstancesType3() throws Exception {
-        Path dir = CleanOutputDir("type3");
+    @ShellMethod("command to create big instances the second type of instance set")
+    public String createInstancesTypeBig2() throws Exception {
+        Path dir = CleanOutputDir("type2-big");
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{3, 5, 10}) {
             for (int nunItems : new int[]{1000, 3000, 5000}) {
@@ -94,8 +102,47 @@ class ShellComponentCreateInstances {
             }
         }
         return "Instances generated !!";
+    }
 
 
+    @ShellMethod("command to create the third type of instance set")
+    public String createInstancesType3() throws Exception {
+        assert utilsType3.getMinAlpha() != -1;
+        String DirName = "type3-" + String.valueOf(utilsType3.getMinAlpha()) + "-" + String.valueOf(utilsType3.getMaxAlpha());
+        Path dir = CleanOutputDir(DirName);
+        int numInstancesPerGroup = 10;
+        for (int numKnapsacks : new int[]{3, 5, 10}) {
+            for (int nunItems : new int[]{400, 500, 600}) {
+                for (int instanceId = 1; instanceId <= numInstancesPerGroup; instanceId++) {
+                    try {
+                        createInstanceOfType3(numKnapsacks, nunItems, instanceId, dir.toString());
+                    } catch (IOException | TemplateException e) {
+                        return e.getMessage();
+                    }
+                }
+            }
+        }
+        return "Instances generated !!";
+    }
+
+    @ShellMethod("command to create big instances of the third type")
+    public String createInstancesTypeBig3() throws Exception {
+        assert utilsType3.getMinAlpha() != -1;
+        String DirName = "type3-big-" + String.valueOf(utilsType3.getMinAlpha()) + "-" + String.valueOf(utilsType3.getMaxAlpha());
+        Path dir = CleanOutputDir(DirName);
+        int numInstancesPerGroup = 10;
+        for (int numKnapsacks : new int[]{3, 5, 10}) {
+            for (int nunItems : new int[]{1000, 3000, 5000}) {
+                for (int instanceId = 1; instanceId <= numInstancesPerGroup; instanceId++) {
+                    try {
+                        createInstanceOfType3(numKnapsacks, nunItems, instanceId, dir.toString());
+                    } catch (IOException | TemplateException e) {
+                        return e.getMessage();
+                    }
+                }
+            }
+        }
+        return "Instances generated !!";
     }
 
 
@@ -168,6 +215,41 @@ class ShellComponentCreateInstances {
             template.process(input, fileWriter);
         }
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+    private void createInstanceOfType3(int numKnapsacks, int numItems, int instanceId, String dir) throws Exception {
+        Template template = cfg.getTemplate("instance.ftl");
+        Map<String, Object> input = new HashMap<>();
+
+        List<Family> families = utilsType3.generateListOfRandomFamily(numItems);
+        List<Item> items = enumerateItems(families);
+        List<Knapsack> knapsacks = utilsType3.generateNKnapsacks(numKnapsacks, families);
+
+        Instance instance = new Instance(items, families, knapsacks);
+        if (!instance.validate()) throw new Exception("instance not valid");
+
+        input.put("numItems", items.size());
+        input.put("numFamilies", families.size());
+        input.put("numKnapsacks", numKnapsacks);
+        input.put("items", items);
+        input.put("families", families);
+        input.put("knapsacks", knapsacks);
+        // Writer consoleWriter = new OutputStreamWriter(System.out);
+        // template.process(input, consoleWriter);
+
+        // to be finished
+
+        String nameFile = String.format("instance_%d.txt", instanceId);
+        Path fileDir = Paths.get(dir, String.format("instances_%d_%d", numKnapsacks, numItems));
+        if (!new File(fileDir.toUri()).exists())
+            Files.createDirectory(fileDir);
+        File output = new File(fileDir.toString(), nameFile);
+
+        try (Writer fileWriter = new FileWriter(output)) {
+            template.process(input, fileWriter);
+        }
+    }
+
 
 
     private List<Item> enumerateItems(List<Family> families) {

@@ -4,6 +4,7 @@ import it.unimib.instancegenerator.ConfProperties;
 import it.unimib.instancegenerator.domain.Family;
 import it.unimib.instancegenerator.domain.Item;
 import it.unimib.instancegenerator.domain.Knapsack;
+import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -16,10 +17,15 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@Component
+@Component("Utils2")
+@Data
 public class GeneratorUtilsAttempt2 {
 
     ConfProperties properties;
+    private double minAlpha = -1;
+    private double maxAlpha = -1;
+
+
 
     public GeneratorUtilsAttempt2(ConfProperties properties) {
         this.properties = properties;
@@ -55,8 +61,10 @@ public class GeneratorUtilsAttempt2 {
     }
 
     public BigDecimal generateRandomAlpha() {
-        Double min = 0.75;
-        Double max = 0.85;
+
+
+        Double min = minAlpha;
+        Double max = maxAlpha;
         Double res = ThreadLocalRandom.current().nextDouble(min, max);
         return new BigDecimal(res).setScale(2, RoundingMode.HALF_UP);
     }
