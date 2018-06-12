@@ -111,7 +111,6 @@ public class GeneratorUtilsAttempt2 {
 
     public Family generateRandomFamily(int familyId, int maxItems) {
         List<Item> items = generateListRandomItems(familyId, generateRandomNumberOfItems(maxItems));
-
         Family family = new Family();
         family.setFamilyId(familyId);
         family.setItems(items);
