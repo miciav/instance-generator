@@ -7,10 +7,7 @@ import it.unimib.instancegenerator.domain.Family;
 import it.unimib.instancegenerator.domain.Instance;
 import it.unimib.instancegenerator.domain.Item;
 import it.unimib.instancegenerator.domain.Knapsack;
-import it.unimib.instancegenerator.utils.GeneratorUtilsAttempt1;
-import it.unimib.instancegenerator.utils.GeneratorUtilsAttempt2;
-import it.unimib.instancegenerator.utils.GeneratorUtilsAttempt3;
-import it.unimib.instancegenerator.utils.GeneratorUtilsAttempt4;
+import it.unimib.instancegenerator.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.shell.standard.ShellComponent;
@@ -41,6 +38,7 @@ class ShellComponentCreateInstances {
     private final GeneratorUtilsAttempt2 utilsType2;
     private final GeneratorUtilsAttempt3 utilsType3;
     private final GeneratorUtilsAttempt4 utilsType4;
+    private final GeneratorUtilsAttempt5 utilsType5;
     private final ConfProperties properties;
 
     @Autowired
@@ -49,12 +47,14 @@ class ShellComponentCreateInstances {
                                          @Qualifier("Utils2") GeneratorUtilsAttempt2 utilsType2,
                                          @Qualifier("Utils3") GeneratorUtilsAttempt3 utilsType3,
                                          @Qualifier("Utils4") GeneratorUtilsAttempt4 utilsType4,
+                                         @Qualifier("Utils5") GeneratorUtilsAttempt5 utilsType5,
                                          ConfProperties properties) {
         this.cfg = cfg;
         this.utilsType1 = utilsType1;
         this.utilsType2 = utilsType2;
         this.utilsType3 = utilsType3;
         this.utilsType4 = utilsType4;
+        this.utilsType5 = utilsType5;
         this.properties = properties;
     }
 
@@ -169,7 +169,7 @@ class ShellComponentCreateInstances {
         return "Instances generated !!";
     }
 
-    @ShellMethod("command to create big instances of the third type")
+    @ShellMethod("command to create big instances of the forth type")
     public String createInstancesTypeBig4() throws Exception {
         assert utilsType4.getMinAlpha() != -1;
         String DirName = "type4-big-" + String.valueOf(utilsType4.getMinAlpha()) + "-" + String.valueOf(utilsType4.getMaxAlpha());
@@ -189,6 +189,46 @@ class ShellComponentCreateInstances {
         return "Instances generated !!";
     }
 
+
+    @ShellMethod("command to create the fifth type of instance set")
+    public String createInstancesType5() throws Exception {
+        assert utilsType5.getMinAlpha() != -1;
+        String DirName = "type5-" + String.valueOf(utilsType5.getMinAlpha()) + "-" + String.valueOf(utilsType5.getMaxAlpha());
+        Path dir = CleanOutputDir(DirName);
+        int numInstancesPerGroup = 10;
+        for (int numKnapsacks : new int[]{3, 5, 10}) {
+            for (int nunItems : new int[]{400, 500, 600}) {
+                for (int instanceId = 1; instanceId <= numInstancesPerGroup; instanceId++) {
+                    try {
+                        createInstanceOfType5(numKnapsacks, nunItems / 4, instanceId, dir.toString());
+                    } catch (IOException | TemplateException e) {
+                        return e.getMessage();
+                    }
+                }
+            }
+        }
+        return "Instances generated !!";
+    }
+
+    @ShellMethod("command to create big instances of the fifth type")
+    public String createInstancesTypeBig5() throws Exception {
+        assert utilsType5.getMinAlpha() != -1;
+        String DirName = "type5-big-" + String.valueOf(utilsType5.getMinAlpha()) + "-" + String.valueOf(utilsType5.getMaxAlpha());
+        Path dir = CleanOutputDir(DirName);
+        int numInstancesPerGroup = 10;
+        for (int numKnapsacks : new int[]{3, 5, 10}) {
+            for (int nunItems : new int[]{1000, 3000, 5000}) {
+                for (int instanceId = 1; instanceId <= numInstancesPerGroup; instanceId++) {
+                    try {
+                        createInstanceOfType5(numKnapsacks, nunItems / 4, instanceId, dir.toString());
+                    } catch (IOException | TemplateException e) {
+                        return e.getMessage();
+                    }
+                }
+            }
+        }
+        return "Instances generated !!";
+    }
 
 
     private Path CleanOutputDir(String type) throws IOException {
@@ -255,7 +295,7 @@ class ShellComponentCreateInstances {
 
 
         /*
-         * Le istanze di tipo 4 sono come quelle di tipo 2 ma ogni famiglia ha un numero minore (circa 1/4) di quelle
+         * Le istanze di tipo 4 sono come quelle di tipo 2 ma ogni famiglia ha un numero minore (circa 1/4) di item rispetto a quelle
          * del tipo 2.
          */
         List<Family> families = utilsType4.generateListOfRandomFamily(numItems);
@@ -264,8 +304,28 @@ class ShellComponentCreateInstances {
         createInstanceFile(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks);
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+    private void createInstanceOfType5(int numKnapsacks, int numItems, int instanceId, String dir) throws Exception {
 
-    private void createInstanceFile(int numKnapsacks, int numItems, int instanceId, String dir, List<Family> families, List<Item> items, List<Knapsack> knapsacks) throws Exception {
+
+        /*
+         * Le istanze di tipo 5 sono come quelle di tipo 2 ma ogni famiglia ha un numero minore (circa 1/4) di item rispetto a quelle
+         * del tipo 2 ed ogni item e' circa 4 volte piu pesante.
+         */
+        List<Family> families = utilsType5.generateListOfRandomFamily(numItems);
+        List<Item> items = enumerateItems(families);
+        List<Knapsack> knapsacks = utilsType5.generateNKnapsacks(numKnapsacks, families);
+        createInstanceFile(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks);
+    }
+
+    private void createInstanceFile(int numKnapsacks,
+                                    int numItems,
+                                    int instanceId,
+                                    String dir,
+                                    List<Family> families,
+                                    List<Item> items,
+                                    List<Knapsack> knapsacks) throws Exception {
+
         Instance instance = new Instance(items, families, knapsacks);
         if (!instance.validate()) throw new Exception("instance not valid");
 
