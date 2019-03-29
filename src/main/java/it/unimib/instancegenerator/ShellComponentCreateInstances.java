@@ -39,6 +39,7 @@ class ShellComponentCreateInstances {
     private final GeneratorUtilsAttempt3 utilsType3;
     private final GeneratorUtilsAttempt4 utilsType4;
     private final GeneratorUtilsAttempt5 utilsType5;
+    private final GeneratorUtilsAttempt6 utilsType6;
     private final ConfProperties properties;
 
     @Autowired
@@ -48,6 +49,7 @@ class ShellComponentCreateInstances {
                                          @Qualifier("Utils3") GeneratorUtilsAttempt3 utilsType3,
                                          @Qualifier("Utils4") GeneratorUtilsAttempt4 utilsType4,
                                          @Qualifier("Utils5") GeneratorUtilsAttempt5 utilsType5,
+                                         @Qualifier("Utils6") GeneratorUtilsAttempt6 utilsType6,
                                          ConfProperties properties) {
         this.cfg = cfg;
         this.utilsType1 = utilsType1;
@@ -55,6 +57,7 @@ class ShellComponentCreateInstances {
         this.utilsType3 = utilsType3;
         this.utilsType4 = utilsType4;
         this.utilsType5 = utilsType5;
+        this.utilsType6 = utilsType6;
         this.properties = properties;
     }
 
@@ -231,6 +234,31 @@ class ShellComponentCreateInstances {
     }
 
 
+    @ShellMethod("command to create instances of the sixth type")
+    public String createInstancesType6() throws Exception {
+        assert utilsType6.getMinAlpha() != -1;
+        String DirName = "type6-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
+        Path dir = CleanOutputDir(DirName);
+        int numInstancesPerGroup = 10;
+        for (int numKnapsacks : new int[]{10}) {
+            for (int nunItems : new int[]{600}) {
+                for (int dim : new int[]{2, 4, 6, 8}) {
+
+                    for (int instanceId = 1; instanceId <= numInstancesPerGroup; instanceId++) {
+                        try {
+                            createInstanceOfType6(numKnapsacks, nunItems, dim, instanceId, dir.toString());
+                        } catch (IOException | TemplateException e) {
+                            return e.getMessage();
+                        }
+                    }
+                }
+            }
+        }
+        return "Instances generated !!";
+    }
+
+
+
     private Path CleanOutputDir(String type) throws IOException {
         Path resDir = Paths.get(System.getProperty("user.dir"), properties.getOutputDir() + "_" + type);
         FileSystemUtils.deleteRecursively(resDir);
@@ -273,7 +301,7 @@ class ShellComponentCreateInstances {
         List<Family> families = utilsType2.generateListOfRandomFamily(numItems);
         List<Item> items = enumerateItems(families);
         List<Knapsack> knapsacks = utilsType2.generateNKnapsacks(numKnapsacks, families);
-        createInstanceFile(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks);
+        createInstanceFile(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks, "instance.ftl");
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -287,7 +315,7 @@ class ShellComponentCreateInstances {
         List<Family> families = utilsType3.generateListOfRandomFamily(numItems);
         List<Item> items = enumerateItems(families);
         List<Knapsack> knapsacks = utilsType3.generateNKnapsacks(numKnapsacks, families);
-        createInstanceFile(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks);
+        createInstanceFile(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks, "instance.ftl");
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -301,7 +329,7 @@ class ShellComponentCreateInstances {
         List<Family> families = utilsType4.generateListOfRandomFamily(numItems);
         List<Item> items = enumerateItems(families);
         List<Knapsack> knapsacks = utilsType4.generateNKnapsacks(numKnapsacks, families);
-        createInstanceFile(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks);
+        createInstanceFile(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks, "instance.ftl");
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -315,7 +343,20 @@ class ShellComponentCreateInstances {
         List<Family> families = utilsType5.generateListOfRandomFamily(numItems);
         List<Item> items = enumerateItems(families);
         List<Knapsack> knapsacks = utilsType5.generateNKnapsacks(numKnapsacks, families);
-        createInstanceFile(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks);
+        createInstanceFile(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks, "instance.ftl");
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    private void createInstanceOfType6(int numKnapsacks, int numItems, int dim, int instanceId, String dir) throws Exception {
+
+
+        /*
+         * Le istanze di tipo 5 sono come quelle di tipo 2 Inoltre le istanze hanno un numero variabile di dimensioni
+         */
+        List<Family> families = utilsType6.generateListOfRandomFamily(numItems, dim);
+        List<Item> items = enumerateItems(families);
+        List<Knapsack> knapsacks = utilsType6.generateNKnapsacks(numKnapsacks, families, dim);
+        createInstanceFileType6(numKnapsacks, numItems, instanceId, dir, families, items, knapsacks, dim, "instanceExtended.ftl");
     }
 
     private void createInstanceFile(int numKnapsacks,
@@ -324,12 +365,14 @@ class ShellComponentCreateInstances {
                                     String dir,
                                     List<Family> families,
                                     List<Item> items,
-                                    List<Knapsack> knapsacks) throws Exception {
+                                    List<Knapsack> knapsacks,
+                                    String templateName) throws Exception {
 
         Instance instance = new Instance(items, families, knapsacks);
         if (!instance.validate()) throw new Exception("instance not valid");
 
-        Template template = cfg.getTemplate("instance.ftl");
+        //Template template = cfg.getTemplate("instance.ftl");
+        Template template = cfg.getTemplate(templateName);
         Map<String, Object> input = new HashMap<>();
 
         input.put("numItems", items.size());
@@ -345,6 +388,45 @@ class ShellComponentCreateInstances {
 
         String nameFile = String.format("instance_%d.txt", instanceId);
         Path fileDir = Paths.get(dir, String.format("instances_%d_%d", numKnapsacks, numItems));
+        if (!new File(fileDir.toUri()).exists())
+            Files.createDirectory(fileDir);
+        File output = new File(fileDir.toString(), nameFile);
+
+        try (Writer fileWriter = new FileWriter(output)) {
+            template.process(input, fileWriter);
+        }
+    }
+
+    private void createInstanceFileType6(int numKnapsacks,
+                                         int numItems,
+                                         int instanceId,
+                                         String dir,
+                                         List<Family> families,
+                                         List<Item> items,
+                                         List<Knapsack> knapsacks,
+                                         int dim,
+                                         String templateName) throws Exception {
+
+        Instance instance = new Instance(items, families, knapsacks);
+        if (!instance.validate()) throw new Exception("instance not valid");
+
+        //Template template = cfg.getTemplate("instance.ftl");
+        Template template = cfg.getTemplate(templateName);
+        Map<String, Object> input = new HashMap<>();
+
+        input.put("numItems", items.size());
+        input.put("numFamilies", families.size());
+        input.put("numKnapsacks", numKnapsacks);
+        input.put("items", items);
+        input.put("families", families);
+        input.put("knapsacks", knapsacks);
+        // Writer consoleWriter = new OutputStreamWriter(System.out);
+        // template.process(input, consoleWriter);
+
+        // to be finished
+
+        String nameFile = String.format("instance_%d.txt", instanceId);
+        Path fileDir = Paths.get(dir, String.format("instances_%d_%d_%d", numKnapsacks, numItems, dim));
         if (!new File(fileDir.toUri()).exists())
             Files.createDirectory(fileDir);
         File output = new File(fileDir.toString(), nameFile);

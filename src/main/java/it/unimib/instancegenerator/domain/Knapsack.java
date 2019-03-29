@@ -14,4 +14,5 @@ public class Knapsack {
     List<Integer> capacities = new ArrayList<>();
     BigDecimal alpha;
     BigDecimal beta;
+    List<BigDecimal> fillRatio = new ArrayList<>();
 }
