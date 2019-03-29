@@ -1,2 +1,2 @@
-# instance-generator
-Project for an instance generator for the multi-knapsack problem.
+# Gold Standard Generator
+A Java-based instance generator for the Multiple Multidimensional Knapsack Problem with Split Families Penalties.
