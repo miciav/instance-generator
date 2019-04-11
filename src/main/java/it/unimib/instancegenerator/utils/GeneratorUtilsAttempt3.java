@@ -33,7 +33,7 @@ public class GeneratorUtilsAttempt3 extends GeneratorUtilsAttempt2 {
     }
 
 
-    private Knapsack generateUnbalancedKnapsacks(int knapsackId, int numKnapsack, BigDecimal alpha, BigDecimal beta, List<Family> families) {
+    protected Knapsack generateUnbalancedKnapsacks(int knapsackId, int numKnapsack, BigDecimal alpha, BigDecimal beta, List<Family> families) {
 
 
         return knapsackId == 1 ?
@@ -72,7 +72,7 @@ public class GeneratorUtilsAttempt3 extends GeneratorUtilsAttempt2 {
         return knapsack;
     }
 
-    private Supplier<Stream<Item>> createStreamFamilySupplier(Family family) {
+    protected Supplier<Stream<Item>> createStreamFamilySupplier(Family family) {
         return () -> family.getItems().stream();
     }
 

@@ -351,7 +351,7 @@ class ShellComponentCreateInstances {
 
 
         /*
-         * Le istanze di tipo 5 sono come quelle di tipo 2 Inoltre le istanze hanno un numero variabile di dimensioni
+         * Le istanze di tipo 5 sono come quelle di tipo 3 Inoltre le istanze hanno un numero variabile di dimensioni
          */
         List<Family> families = utilsType6.generateListOfRandomFamily(numItems, dim);
         List<Item> items = enumerateItems(families);
