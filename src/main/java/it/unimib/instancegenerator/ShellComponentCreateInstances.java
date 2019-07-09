@@ -280,6 +280,30 @@ class ShellComponentCreateInstances {
         return "Instances generated !!";
     }
 
+    @ShellMethod("command to create instances of the eight type")
+    public String createInstancesType8() throws Exception {
+        assert utilsType6.getMinAlpha() != -1;
+        String DirName = "type8-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
+        Path dir = CleanOutputDir(DirName);
+        int numInstancesPerGroup = 10;
+        for (int numKnapsacks : new int[]{40}) {
+            for (int nunItems : new int[]{2400}) {
+                for (int dim : new int[]{2}) {
+
+                    for (int instanceId = 1; instanceId <= numInstancesPerGroup; instanceId++) {
+                        try {
+                            createInstanceOfType6(numKnapsacks, nunItems, dim, instanceId, dir.toString());
+                        } catch (IOException | TemplateException e) {
+                            return e.getMessage();
+                        }
+                    }
+                }
+            }
+        }
+        return "Instances generated !!";
+    }
+
+
 
 
 
