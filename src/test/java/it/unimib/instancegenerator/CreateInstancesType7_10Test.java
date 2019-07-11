@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Import(TestApplicationRunner.class)
-public class CreateInstancesType7_8_9Test {
+public class CreateInstancesType7_10Test {
 
     @Autowired
     private Shell shell;
@@ -41,7 +41,7 @@ public class CreateInstancesType7_8_9Test {
         assertThat(shell.evaluate(() -> "create-instances-type8")).isEqualTo("Instances generated !!");
     }*/
 
-    @Test
+/*    @Test
     public void instancesOfTypeBig9_027_033() {
         // queste istanze sono quelle di grandi dimensioni
         // 1) 11 zaini e 660 items
@@ -52,6 +52,19 @@ public class CreateInstancesType7_8_9Test {
         utils6.setMinAlpha(0.27);
         utils6.setMaxAlpha(0.33);
         assertThat(shell.evaluate(() -> "create-instances-type9")).isEqualTo("Instances generated !!");
+    }*/
+
+    @Test
+    public void instancesOfTypeBig10_027_033() {
+        // queste istanze sono quelle di grandi dimensioni
+        // 1) 12 zaini e 720 items, dim 4
+        // 2) 12 zaini e 720 items, dim 6
+        // 3) 12 zaini e 720 items, dim 8
+        // usate nell'ultima versione del paper
+
+        utils6.setMinAlpha(0.27);
+        utils6.setMaxAlpha(0.33);
+        assertThat(shell.evaluate(() -> "create-instances-type10")).isEqualTo("Instances generated !!");
     }
 
 }

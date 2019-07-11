@@ -330,6 +330,33 @@ class ShellComponentCreateInstances {
         return "Instances generated !!";
     }
 
+    @ShellMethod("command to create instances of the tenth type")
+    public String createInstancesType10() throws Exception {
+        assert utilsType6.getMinAlpha() != -1;
+        String DirName = "type10-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
+        Path dir = CleanOutputDir(DirName);
+        int numInstancesPerGroup = 10;
+
+        int[] numKnapsacks = new int[]{12};
+
+        int[] nunItems = new int[]{720};
+
+        for (int i = 0; i < numKnapsacks.length; i++) {
+            for (int dim : new int[]{4, 6, 8}) {
+
+                for (int instanceId = 1; instanceId <= numInstancesPerGroup; instanceId++) {
+                    try {
+                        createInstanceOfType6(numKnapsacks[i], nunItems[i], dim, instanceId, dir.toString());
+                    } catch (IOException | TemplateException e) {
+                        return e.getMessage();
+                    }
+                }
+            }
+
+        }
+        return "Instances generated !!";
+    }
+
 
     private Path CleanOutputDir(String type) throws IOException {
         Path resDir = Paths.get(System.getProperty("user.dir"), properties.getOutputDir() + "_" + type);
