@@ -66,17 +66,30 @@ public class CreateInstancesType7_11Test {
         utils6.setMaxAlpha(0.33);
         assertThat(shell.evaluate(() -> "create-instances-type10")).isEqualTo("Instances generated !!");
     }*/
+//
+//    @Test
+//    public void instancesOfTypeBig11_027_033() {
+//        // queste istanze sono quelle di grandi dimensioni
+//        // 1) 15 zaini e 600 items, dim 2
+//        // 2) 20 zaini e 600 items, dim 2
+//        // usate nell'ultima versione del paper
+//
+//        utils6.setMinAlpha(0.27);
+//        utils6.setMaxAlpha(0.33);
+//        assertThat(shell.evaluate(() -> "create-instances-type11")).isEqualTo("Instances generated !!");
+//    }
+
 
     @Test
-    public void instancesOfTypeBig11_027_033() {
+    public void instancesOfTypeBigx_027_033() {
         // queste istanze sono quelle di grandi dimensioni
-        // 1) 15 zaini e 600 items, dim 2
-        // 2) 20 zaini e 600 items, dim 2
+        // 1) 10 zaini e 800 items, dim 2, 4, 6, 8
+        // 2) 10 zaini e 1000 items, dim 2, 4, 6, 8
         // usate nell'ultima versione del paper
 
         utils6.setMinAlpha(0.27);
         utils6.setMaxAlpha(0.33);
-        assertThat(shell.evaluate(() -> "create-instances-type11")).isEqualTo("Instances generated !!");
+        assertThat(shell.evaluate(() -> "create-instances-type-x")).isEqualTo("Instances generated !!");
     }
 
 

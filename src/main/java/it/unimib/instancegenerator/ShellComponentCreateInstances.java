@@ -357,19 +357,19 @@ class ShellComponentCreateInstances {
         return "Instances generated !!";
     }
 
-    @ShellMethod("command to create instances of the eleventh type")
-    public String createInstancesType11() throws Exception {
+    @ShellMethod("command to create instances of the x type")
+    public String createInstancesTypeX() throws Exception {
         assert utilsType6.getMinAlpha() != -1;
-        String DirName = "type11-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
+        String DirName = "typeX-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
 
-        int[] numKnapsacks = new int[]{15, 20};
+        int[] numKnapsacks = new int[]{10, 10};
 
-        int[] nunItems = new int[]{600, 600};
+        int[] nunItems = new int[]{800, 1000};
 
         for (int i = 0; i < numKnapsacks.length; i++) {
-            for (int dim : new int[]{2}) {
+            for (int dim : new int[]{2, 4, 6, 8}) {
 
                 for (int instanceId = 1; instanceId <= numInstancesPerGroup; instanceId++) {
                     try {
