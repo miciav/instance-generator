@@ -19,11 +19,14 @@ public class Instance {
 
     public boolean validate() {
 
-
-        return checkNumFamilies() &&
-                checkNumItemsPerFamily() &&
-                checkTotalNumItems() &&
-                checkfamiliesWithZeroItems();
+        boolean ck1 = checkNumFamilies();
+        boolean ck2 = checkNumItemsPerFamily();
+        boolean ck3 = checkTotalNumItems();
+        boolean ck4 = checkfamiliesWithZeroItems();
+        return ck1 &&
+                ck2 &&
+                ck3 &&
+                ck4;
     }
 
     private boolean checkNumFamilies() {
@@ -31,7 +34,8 @@ public class Instance {
 
         Integer numfamiliesFromItems = items.stream().mapToInt(Item::getFamilyId).max().orElse(0);
 
-        return numfamilies == numfamiliesFromItems;
+        boolean chk = numfamilies.equals(numfamiliesFromItems);
+        return chk;
 
     }
 
@@ -44,7 +48,8 @@ public class Instance {
     }
 
     private boolean checkTotalNumItems() {
-        return families.stream().mapToInt(Family::getNumItems).sum() == items.size();
+        return families.stream()
+                .mapToInt(Family::getNumItems).sum() == items.size();
     }
 
     private boolean checkfamiliesWithZeroItems() {

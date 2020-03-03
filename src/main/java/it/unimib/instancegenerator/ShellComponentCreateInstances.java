@@ -115,7 +115,7 @@ class ShellComponentCreateInstances {
     @ShellMethod("command to create the third type of instance set")
     public String createInstancesType3() throws Exception {
         assert utilsType3.getMinAlpha() != -1;
-        String DirName = "type3-" + String.valueOf(utilsType3.getMinAlpha()) + "-" + String.valueOf(utilsType3.getMaxAlpha());
+        String DirName = "type3-" + utilsType3.getMinAlpha() + "-" + utilsType3.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{3, 5, 10}) {
@@ -135,7 +135,7 @@ class ShellComponentCreateInstances {
     @ShellMethod("command to create big instances of the third type")
     public String createInstancesTypeBig3() throws Exception {
         assert utilsType3.getMinAlpha() != -1;
-        String DirName = "type3-big-" + String.valueOf(utilsType3.getMinAlpha()) + "-" + String.valueOf(utilsType3.getMaxAlpha());
+        String DirName = "type3-big-" + utilsType3.getMinAlpha() + "-" + utilsType3.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{3, 5, 10}) {
@@ -155,7 +155,7 @@ class ShellComponentCreateInstances {
     @ShellMethod("command to create the fourth type of instance set")
     public String createInstancesType4() throws Exception {
         assert utilsType4.getMinAlpha() != -1;
-        String DirName = "type4-" + String.valueOf(utilsType4.getMinAlpha()) + "-" + String.valueOf(utilsType4.getMaxAlpha());
+        String DirName = "type4-" + utilsType4.getMinAlpha() + "-" + utilsType4.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{3, 5, 10}) {
@@ -175,7 +175,7 @@ class ShellComponentCreateInstances {
     @ShellMethod("command to create big instances of the forth type")
     public String createInstancesTypeBig4() throws Exception {
         assert utilsType4.getMinAlpha() != -1;
-        String DirName = "type4-big-" + String.valueOf(utilsType4.getMinAlpha()) + "-" + String.valueOf(utilsType4.getMaxAlpha());
+        String DirName = "type4-big-" + utilsType4.getMinAlpha() + "-" + utilsType4.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{3, 5, 10}) {
@@ -192,11 +192,10 @@ class ShellComponentCreateInstances {
         return "Instances generated !!";
     }
 
-
     @ShellMethod("command to create the fifth type of instance set")
     public String createInstancesType5() throws Exception {
         assert utilsType5.getMinAlpha() != -1;
-        String DirName = "type5-" + String.valueOf(utilsType5.getMinAlpha()) + "-" + String.valueOf(utilsType5.getMaxAlpha());
+        String DirName = "type5-" + utilsType5.getMinAlpha() + "-" + utilsType5.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{3, 5, 10}) {
@@ -216,7 +215,7 @@ class ShellComponentCreateInstances {
     @ShellMethod("command to create big instances of the fifth type")
     public String createInstancesTypeBig5() throws Exception {
         assert utilsType5.getMinAlpha() != -1;
-        String DirName = "type5-big-" + String.valueOf(utilsType5.getMinAlpha()) + "-" + String.valueOf(utilsType5.getMaxAlpha());
+        String DirName = "type5-big-" + utilsType5.getMinAlpha() + "-" + utilsType5.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{3, 5, 10}) {
@@ -237,7 +236,7 @@ class ShellComponentCreateInstances {
     @ShellMethod("command to create instances of the sixth type")
     public String createInstancesType6() throws Exception {
         assert utilsType6.getMinAlpha() != -1;
-        String DirName = "type6-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
+        String DirName = "type6-" + utilsType6.getMinAlpha() + "-" + utilsType6.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{10}) {
@@ -260,7 +259,7 @@ class ShellComponentCreateInstances {
     @ShellMethod("command to create instances of the seventh type")
     public String createInstancesType7() throws Exception {
         assert utilsType6.getMinAlpha() != -1;
-        String DirName = "type7-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
+        String DirName = "type7-" + utilsType6.getMinAlpha() + "-" + utilsType6.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{20}) {
@@ -283,7 +282,7 @@ class ShellComponentCreateInstances {
     @ShellMethod("command to create instances of the eight type")
     public String createInstancesType8() throws Exception {
         assert utilsType6.getMinAlpha() != -1;
-        String DirName = "type8-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
+        String DirName = "type8-" + utilsType6.getMinAlpha() + "-" + utilsType6.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
         for (int numKnapsacks : new int[]{40}) {
@@ -306,7 +305,7 @@ class ShellComponentCreateInstances {
     @ShellMethod("command to create instances of the nineth type")
     public String createInstancesType9() throws Exception {
         assert utilsType6.getMinAlpha() != -1;
-        String DirName = "type9-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
+        String DirName = "type9-" + utilsType6.getMinAlpha() + "-" + utilsType6.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
 
@@ -333,7 +332,7 @@ class ShellComponentCreateInstances {
     @ShellMethod("command to create instances of the tenth type")
     public String createInstancesType10() throws Exception {
         assert utilsType6.getMinAlpha() != -1;
-        String DirName = "type10-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
+        String DirName = "type10-" + utilsType6.getMinAlpha() + "-" + utilsType6.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
 
@@ -357,10 +356,37 @@ class ShellComponentCreateInstances {
         return "Instances generated !!";
     }
 
+    @ShellMethod("command to create instances of the 13 type")
+    public String createInstancesType13() throws Exception {
+        assert utilsType6.getMinAlpha() != -1;
+        String DirName = "type13-" + utilsType6.getMinAlpha() + "-" + utilsType6.getMaxAlpha();
+        Path dir = CleanOutputDir(DirName);
+        int numInstancesPerGroup = 10;
+
+        int[] numKnapsacks = new int[]{10};
+
+        int[] nunItems = new int[]{1000};
+
+        for (int i = 0; i < numKnapsacks.length; i++) {
+            for (int dim : new int[]{2, 4, 6, 8}) {
+
+                for (int instanceId = 1; instanceId <= numInstancesPerGroup; instanceId++) {
+                    try {
+                        createInstanceOfType6(numKnapsacks[i], nunItems[i], dim, instanceId, dir.toString());
+                    } catch (IOException | TemplateException e) {
+                        return e.getMessage();
+                    }
+                }
+            }
+
+        }
+        return "Instances generated !!";
+    }
+
     @ShellMethod("command to create instances of the x type")
     public String createInstancesTypeX() throws Exception {
         assert utilsType6.getMinAlpha() != -1;
-        String DirName = "typeX-" + String.valueOf(utilsType6.getMinAlpha()) + "-" + String.valueOf(utilsType6.getMaxAlpha());
+        String DirName = "typeX-" + utilsType6.getMinAlpha() + "-" + utilsType6.getMaxAlpha();
         Path dir = CleanOutputDir(DirName);
         int numInstancesPerGroup = 10;
 
@@ -383,7 +409,6 @@ class ShellComponentCreateInstances {
         }
         return "Instances generated !!";
     }
-
 
 
     private Path CleanOutputDir(String type) throws IOException {

@@ -80,16 +80,41 @@ public class CreateInstancesType7_11Test {
 //    }
 
 
+//    @Test
+//    public void instancesOfTypeBigx_027_033() {
+//        // queste istanze sono quelle di grandi dimensioni
+//        // 1) 10 zaini e 800 items, dim 2, 4, 6, 8
+//        // 2) 10 zaini e 1000 items, dim 2, 4, 6, 8
+//        // usate nell'ultima versione del paper
+//
+//        utils6.setMinAlpha(0.27);
+//        utils6.setMaxAlpha(0.33);
+//        assertThat(shell.evaluate(() -> "create-instances-type-x")).isEqualTo("Instances generated !!");
+//    }
+
+
+//    @Test
+//    public void instancesOfTypeBig13_027_033() {
+//        // queste istanze sono quelle di grandi dimensioni
+//        // 1) 10 zaini e 1000 items, dim 2, 4, 6, 8 e circa 100 famiglie
+//
+//        utils6.setMinAlpha(0.27);
+//        utils6.setMaxAlpha(0.33);
+//        utils6.getProperties().getNumItems().setMaximum(13);
+//        utils6.getProperties().getNumItems().setMinimum(7);
+//        assertThat(shell.evaluate(() -> "create-instances-type13")).isEqualTo("Instances generated !!");
+//    }
+
     @Test
-    public void instancesOfTypeBigx_027_033() {
+    public void instancesOfTypeBig14_027_033() {
         // queste istanze sono quelle di grandi dimensioni
-        // 1) 10 zaini e 800 items, dim 2, 4, 6, 8
-        // 2) 10 zaini e 1000 items, dim 2, 4, 6, 8
-        // usate nell'ultima versione del paper
+        // 1) 10 zaini e 1000 items, dim 2, 4, 6, 8 e circa 200 famiglie
 
         utils6.setMinAlpha(0.27);
         utils6.setMaxAlpha(0.33);
-        assertThat(shell.evaluate(() -> "create-instances-type-x")).isEqualTo("Instances generated !!");
+        utils6.getProperties().getNumItems().setMaximum(6);
+        utils6.getProperties().getNumItems().setMinimum(4);
+        assertThat(shell.evaluate(() -> "create-instances-type13")).isEqualTo("Instances generated !!");
     }
 
 
