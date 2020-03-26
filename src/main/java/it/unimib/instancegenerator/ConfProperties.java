@@ -26,16 +26,23 @@ public class ConfProperties {
 	private Extremes numFamilies = new Extremes();
 	
 	private Integer numKnapsacks;
-	
-	private String outputDir;
 
-	private Integer numInstancesPerGroup =10;
+    private String outputDir;
 
-	private Extremes requirementCpu= new Extremes();
+    private Integer numInstancesPerGroup = 10;
 
-	private Extremes requirementMemory =new Extremes();
+    private Extremes requirementCpu = new Extremes();
 
-	private List<Double> weights = Arrays.asList(0.25, 0.50, 0.75);
+    private Extremes requirementMemory = new Extremes();
 
+    private List<Double> weights = Arrays.asList(0.25, 0.50, 0.75);
+
+    private int[] arrayTotalNumItems; // are used to generate multiple sets of instances
+
+    private int[] arrayNumKnapsacks; // are used to generate multiple sets of instances
+
+    private int[] arrayNunDimensions; // are used to generate multiple sets of instances
+
+    private String typeName; // are used to generate multiple sets of instances
 
 }

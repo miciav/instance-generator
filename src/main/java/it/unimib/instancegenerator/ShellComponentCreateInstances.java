@@ -410,6 +410,33 @@ class ShellComponentCreateInstances {
         return "Instances generated !!";
     }
 
+    @ShellMethod("command to create instances of the generic type")
+    public String createInstancesTypeG() throws Exception {
+        assert utilsType6.getMinAlpha() != -1;
+        String DirName = utilsType6.getProperties().getTypeName() + "-" + utilsType6.getMinAlpha() + "-" + utilsType6.getMaxAlpha();
+        Path dir = CleanOutputDir(DirName);
+        int numInstancesPerGroup = 10;
+
+        int[] numKnapsacks = utilsType6.getProperties().getArrayNumKnapsacks();
+
+        int[] nunItems = utilsType6.getProperties().getArrayTotalNumItems();
+
+        for (int i = 0; i < numKnapsacks.length; i++) {
+            for (int dim : utilsType6.getProperties().getArrayNunDimensions()) {
+
+                for (int instanceId = 1; instanceId <= numInstancesPerGroup; instanceId++) {
+                    try {
+                        createInstanceOfType6(numKnapsacks[i], nunItems[i], dim, instanceId, dir.toString());
+                    } catch (IOException | TemplateException e) {
+                        return e.getMessage();
+                    }
+                }
+            }
+
+        }
+        return "Instances generated !!";
+    }
+
 
     private Path CleanOutputDir(String type) throws IOException {
         Path resDir = Paths.get(System.getProperty("user.dir"), properties.getOutputDir() + "_" + type);

@@ -140,16 +140,32 @@ public class CreateInstancesType7_11Test {
 //        assertThat(shell.evaluate(() -> "create-instances-type13")).isEqualTo("Instances generated !!");
 //    }
 
+//    @Test
+//    public void instancesOfTypeBig17_027_033() {
+//        // queste istanze sono quelle di grandi dimensioni
+//        // 1) 10 zaini e 1000 items, dim 2, 4, 6, 8 e circa 10 famiglie
+//
+//        utils6.setMinAlpha(0.27);
+//        utils6.setMaxAlpha(0.33);
+//        utils6.getProperties().getNumItems().setMaximum(103);
+//        utils6.getProperties().getNumItems().setMinimum(97);
+//        assertThat(shell.evaluate(() -> "create-instances-type13")).isEqualTo("Instances generated !!");
+//    }
+
     @Test
-    public void instancesOfTypeBig17_027_033() {
+    public void instancesOfTypeBig18_027_033() {
         // queste istanze sono quelle di grandi dimensioni
-        // 1) 10 zaini e 1000 items, dim 2, 4, 6, 8 e circa 100 famiglie
+        // 1) 10 zaini e 100 items, dim 2, 4, 6, 8 e circa 10 famiglie
 
         utils6.setMinAlpha(0.27);
         utils6.setMaxAlpha(0.33);
-        utils6.getProperties().getNumItems().setMaximum(103);
-        utils6.getProperties().getNumItems().setMinimum(97);
-        assertThat(shell.evaluate(() -> "create-instances-type13")).isEqualTo("Instances generated !!");
+        utils6.getProperties().getNumItems().setMaximum(13);
+        utils6.getProperties().getNumItems().setMinimum(7);
+        utils6.getProperties().setArrayTotalNumItems(new int[]{100});
+        utils6.getProperties().setArrayNumKnapsacks(new int[]{10});
+        utils6.getProperties().setArrayNunDimensions(new int[]{2, 4, 6, 8});
+        utils6.getProperties().setTypeName("type18");
+        assertThat(shell.evaluate(() -> "create-instances-type-g")).isEqualTo("Instances generated !!");
     }
 
 }
